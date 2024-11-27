@@ -1,13 +1,19 @@
 import { Endpoints } from "../config/endpoints";
 import { ILoginForm } from "../config/interfaces";
 import { authApi } from "./api";
+import { useNavigate } from "react-router-dom";
+// import { IUser } from "../config/interfaces";
 
 export function HandleLogin(
   event: React.FormEvent<HTMLFormElement>,
-  data: ILoginForm
+  data: ILoginForm,
+  setUser: React.Dispatch<React.SetStateAction<any>>,
+  setTokens: React.Dispatch<React.SetStateAction<any>>,
+  navigate: (path: string) => void
 ) {
   event.preventDefault();
   const { email, password } = data;
+  // const navigate = useNavigate();
   const { login } = Endpoints;
   const payload = {
     input: {
@@ -18,7 +24,17 @@ export function HandleLogin(
 
   authApi
     .post(login, payload)
-    .then((res) => console.log(res))
+    .then((res) => {
+      // Assuming the response structure is as mentioned
+      const userData = res.data.data.user;
+      const tokens = res.data.data.tokens;
+
+      // Set user data and tokens in context
+      setUser(userData);
+      setTokens(tokens);
+
+      navigate("/dashboard");
+    })
     .catch((error) => {
       if (error.response) {
         // Backend returned an error

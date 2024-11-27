@@ -3,12 +3,16 @@ import { useState } from "react";
 import { ILoginForm } from "../config/interfaces";
 import { HandleLogin } from "../api/actions";
 import { InputField } from "../components/Input";
+import { useUserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState<ILoginForm>({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const { setUser, setTokens } = useUserContext();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -16,7 +20,8 @@ function Login() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    HandleLogin(event, formData);
+    HandleLogin(event, formData, setUser, setTokens, navigate);
+    // console.log(user)
   };
 
   return (

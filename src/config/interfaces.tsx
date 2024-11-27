@@ -21,9 +21,9 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  // isDeleted: boolean;
+  // createdAt: string;
+  // updatedAt: string;
 }
 
 export interface ITokens {
