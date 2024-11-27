@@ -1,8 +1,26 @@
-import React from "react";
+import { useState } from "react";
+// import { Link } from "react-router-dom";
+import { ILoginForm } from "../config/interfaces";
+import { HandleLogin } from "../api/actions";
+import { InputField } from "../components/Input";
 
 function Login() {
+  const [formData, setFormData] = useState<ILoginForm>({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    HandleLogin(event, formData);
+  };
+
   return (
-    <div className="h-[80%] w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
+    <div className=" relative z-10 h-[80%] w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
       {/* Heading */}
       <h1 className="text-secondary text-lg md:text-2xl font-semibold">
         Agent Login
@@ -12,30 +30,26 @@ function Login() {
       </p>
 
       {/* Form */}
-      <form className="w-full px-12 mt-6 flex flex-col gap-4">
-        {/* Email / Phone Number */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Enter Email / Phone No"
-            className="w-full px-4 py-3 border rounded-lg bg-tertiary focus:outline-none focus:ring-secondary focus:bg-tertiary text-white"
-          />
-          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <i className="fas fa-envelope" />
-          </span>
-        </div>
-
+      <form
+        className="w-full px-12 mt-6 flex flex-col gap-4"
+        onSubmit={handleSubmit}
+      >
+        {/* Email */}
+        <InputField
+          label="Enter Email "
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          type="text"
+        />
         {/* Password */}
-        <div className="relative">
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-3 border rounded-lg bg-tertiary focus:outline-none focus:ring-secondary focus:bg-tertiary text-white"
-          />
-          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            Hide
-          </span>
-        </div>
+        <InputField
+          label="Password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          type="password"
+        />
 
         {/* Trouble logging in */}
         <a
