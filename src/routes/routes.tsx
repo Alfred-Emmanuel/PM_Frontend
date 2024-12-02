@@ -5,6 +5,7 @@ import ProtectedRoute from "./protectedRoutes";
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Register = lazy(() => import("../pages/SignUp"))
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
         {/* Public Routes */}
 
         <Route path="/" element={<Home />} />
+        <Route path="/sign_up" element={<Register />} />
         <Route path="/about" element={<About />} />
 
         {/* Protected Routes */}

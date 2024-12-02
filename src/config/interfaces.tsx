@@ -11,6 +11,13 @@ export interface ILoginForm {
   password: string;
 }
 
+export interface IRegisterForm {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export interface ITask {
   id: number;
   name: string;
@@ -37,4 +44,8 @@ export interface IUserContextType {
   setUser: (user: IUser | null) => void;
   setTokens: (tokens: ITokens | null) => void;
   refreshToken: () => void;
+}
+
+export interface ICreateBoardData {
+  title: string;
 }

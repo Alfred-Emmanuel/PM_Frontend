@@ -18,7 +18,7 @@ const ListCard: React.FC<ListCardProps> = ({
   return (
     <div
       ref={listRef}
-      className="w-[250px] bg-gray-800 rounded-lg shadow-md p-4 flex flex-col space-y-3"
+      className="w-[250px] bg-gray-800 rounded-lg shadow-md p-4 flex flex-col space-y-3 flex-shrink-0"
     >
       {/* Card Header */}
       <div className="flex justify-between items-center">

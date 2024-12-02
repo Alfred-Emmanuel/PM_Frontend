@@ -1,7 +1,7 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ILoginForm } from "../config/interfaces";
-import { HandleLogin } from "../api/actions";
+import { HandleLogin } from "../api/authActions";
 import { InputField } from "../components/Input";
 import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setUser, setTokens } = useUserContext();
 
@@ -20,7 +21,8 @@ function Login() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    HandleLogin(event, formData, setUser, setTokens, navigate);
+    setLoading(true);
+    HandleLogin(event, formData, setUser, setTokens, navigate, setLoading);
     // console.log(user)
   };
 
@@ -67,9 +69,38 @@ function Login() {
         {/* Sign In Button */}
         <button
           type="submit"
-          className="bg-teal-400 text-black font-medium py-3 rounded-lg cursor-pointer hover:bg-teal-600 transition"
+          className={`bg-teal-400 text-black font-medium py-3 rounded-lg cursor-pointer hover:bg-teal-600 transition flex justify-center items-center ${
+            loading ? "opacity-60 cursor-not-allowed" : ""
+          }`}
+          disabled={loading} // Disable button when loading
         >
-          Sign in
+          {loading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 text-black mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+              Signing in...
+            </>
+          ) : (
+            "Sign in"
+          )}
         </button>
       </form>
 
@@ -92,9 +123,9 @@ function Login() {
       {/* Request Account */}
       <p className="mt-4 text-sm text-gray-500">
         Don’t have an account?{" "}
-        <a href="#" className="text-secondary hover:underline">
+        <Link to={"/sign_up"} className="text-secondary hover:underline">
           Request Now
-        </a>
+        </Link>
       </p>
     </div>
   );
