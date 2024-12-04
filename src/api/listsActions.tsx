@@ -1,27 +1,27 @@
 import { apiPost, apiGet } from "../utils/requests";
-import { ICreateBoardData, IListCard } from "../config/interfaces";
+import { ICreateListData, IListCard } from "../config/interfaces";
 import { Endpoints } from "../config/endpoints";
 import { showToastError } from "../utils/toastMessages";
 
-interface KanbanBoard {
+interface Lists {
   // isDeleted: boolean;
   id: number;
   title: string;
   ownerId: number;
 }
 
-export async function getAllBoards(
+export async function getAllLists(
   token: string | undefined,
   setLists: React.Dispatch<React.SetStateAction<any>>
 ) {
   try {
-    const response = await apiGet<any>(Endpoints.fetchBoards, token);
+    const response = await apiGet<any>(Endpoints.fetchLists, token);
     // console.log(response)
-    const boards = response.data;
-    // console.log(boards);
-    const transformedLists: IListCard[] = boards.map((board: any) => ({
-      id: board.id,
-      name: board.title,
+    const lists = response.data;
+    // console.log(lists);
+    const transformedLists: IListCard[] = lists.map((list: any) => ({
+      id: list.id,
+      name: list.title,
       tasks: [],
     }));
     setLists(transformedLists);
@@ -32,20 +32,16 @@ export async function getAllBoards(
   }
 }
 
-export const createKanbanBoard = async (
-  data: ICreateBoardData,
+export const createLists = async (
+  data: ICreateListData,
   token: string | undefined
-): Promise<KanbanBoard> => {
+): Promise<Lists> => {
   try {
-    return await apiPost<KanbanBoard>(Endpoints.createBoard, data, token);
+    return await apiPost<Lists>(Endpoints.createList, data, token);
   } catch (error: any) {
     showToastError(error);
     throw error;
   }
 };
 
-
-export function createTask(
-  data: string,
-  token: string | undefined, 
-) {}
+export function createTask(data: string, token: string | undefined) {}

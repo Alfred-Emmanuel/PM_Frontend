@@ -44,8 +44,14 @@ export interface IUserContextType {
   setUser: (user: IUser | null) => void;
   setTokens: (tokens: ITokens | null) => void;
   refreshToken: () => void;
+  isLoading: boolean;
 }
 
 export interface ICreateBoardData {
   title: string;
+}
+
+export interface ICreateListData {
+  title: string;
+  kanbanBoardId: number;
 }

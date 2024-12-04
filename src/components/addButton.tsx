@@ -5,6 +5,8 @@ interface AddItemButtonProps {
   placeholder: string;
   confirmButtonText: string;
   onConfirm: (value: string) => void;
+  customInputContainerClass?: string;
+  customButtonClass?: string;
 }
 
 const AddItemButton: React.FC<AddItemButtonProps> = ({
@@ -12,6 +14,8 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({
   placeholder,
   confirmButtonText,
   onConfirm,
+  customInputContainerClass,
+  customButtonClass,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -30,7 +34,7 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({
       {!isInputVisible && (
         <button
           onClick={() => setIsInputVisible(true)}
-          className="flex items-center px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600"
+          className="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-gray-600"
         >
           <span className="mr-2 text-lg">+</span> {buttonText}
         </button>
@@ -38,17 +42,27 @@ const AddItemButton: React.FC<AddItemButtonProps> = ({
 
       {/* Input and confirm button */}
       {isInputVisible && (
-        <div className="flex items-center space-x-2">
+        <div
+          className={
+            customInputContainerClass
+              ? customInputContainerClass
+              : "flex items-center space-x-2"
+          }
+        >
           <input
             type="text"
             placeholder={placeholder}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 bg-primary text-white"
           />
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
+            className={
+              customButtonClass
+                ? customButtonClass
+                : "px-4 py-2 bg-teal-400 text-black rounded-lg hover:bg-teal-500"
+            }
           >
             {confirmButtonText}
           </button>

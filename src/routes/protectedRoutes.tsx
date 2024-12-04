@@ -6,9 +6,11 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-    const { user } = useUserContext();
-    // console.log(user);
-//   const isAuthenticated = false;
+  const { user, isLoading } = useUserContext();
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Replace with a spinner or loading UI
+  }
 
   return user ? children : <Navigate to="/" />;
 };

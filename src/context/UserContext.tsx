@@ -9,6 +9,34 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [tokens, setTokens] = useState<ITokens | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (tokens) {
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+    }
+  }, [tokens]);
+
+  // Load user and tokens from localStorage on initialization
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedTokens = localStorage.getItem("tokens");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    if (storedTokens) {
+      setTokens(JSON.parse(storedTokens));
+    }
+    setIsLoading(false);
+  }, []);
 
   // Function to refresh the token using the refresh token
   const refreshToken = async () => {
@@ -51,14 +79,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, tokens, setUser, setTokens, refreshToken }}
+      value={{ user, tokens, setUser, setTokens, refreshToken, isLoading }}
     >
       {children}
     </UserContext.Provider>
   );
 };
 
-// Custom hook to use the UserContext
 export const useUserContext = (): IUserContextType => {
   const context = useContext(UserContext);
   if (!context) {

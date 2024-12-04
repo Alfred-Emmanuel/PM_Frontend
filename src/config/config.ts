@@ -18,11 +18,17 @@ export const config = Object.freeze({
     sign_up_endpoint: import.meta.env.VITE_SIGN_UP_ENDPOINT,
   },
   endpoints: {
-    /**kanban board endpoints */
-    kanban_board: {
-      base_url: import.meta.env.VITE_KANBAN_BOARD,
-      create: import.meta.env.VITE_CREATE_KANBAN_BOARD,
-      fetch_boards: import.meta.env.VITE_FETCH_ALL_BOARDS
+    /**lists board endpoints */
+    lists: {
+      base_url: import.meta.env.VITE_LISTS,
+      create: import.meta.env.VITE_CREATE_LIST,
+      fetch_lists: import.meta.env.VITE_FETCH_ALL_LISTS,
     },
+    /**kanban board endpoints */
+    kanbanBoard: {
+        base_url: import.meta.env.VITE_KANBAN_BOARD,
+        create: import.meta.env.VITE_CREATE_KANBAN_BOARD,
+        fetch_board: import.meta.env.VITE_FETCH_BOARDS
+    }
   },
 });
