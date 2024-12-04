@@ -1,15 +1,11 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes";
-import Home from "../pages/Home.tsx";
-import About from "../pages/About.tsx";
-import Dashboard from "../pages/Dashboard.tsx";
-import SignUp from "../pages/SignUp.tsx";
 
-// const Home = lazy(() => import("../pages/Home.tsx"));
-// const About = lazy(() => import("../pages/About.tsx"));
-// const Dashboard = lazy(() => import("../pages/Dashboard.tsx"));
-// const Register = lazy(() => import("../pages/SignUp.tsx"))
+const Home = lazy(() => import("../pages/Home"));
+const About = lazy(() => import("../pages/About"));
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const SignUp = lazy(() => import("../pages/SignUp"));
 
 const AppRoutes = () => {
   return (
