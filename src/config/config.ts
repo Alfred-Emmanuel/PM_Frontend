@@ -1,5 +1,5 @@
 import { ENVIRONMENT } from "../utils/environment";
-import { Endpoints } from "./endpoints";
+// import { Endpoints } from "./endpoints";
 
 export const config = Object.freeze({
   app: {

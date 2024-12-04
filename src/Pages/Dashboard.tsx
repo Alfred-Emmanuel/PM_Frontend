@@ -1,41 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useListDragAndDrop from "../components/custom_hooks/useListDragAndDrop";
 import { useUserContext } from "../context/UserContext";
 import AddItemButton from "../components/addButton";
-import { IListCard, ICreateBoardData } from "../config/interfaces";
+import { IListCard, ICreateBoardData, IBoard } from "../config/interfaces";
 import ListCard from "../components/ListCard";
-import { addNewList, addNewTask } from "../utils/listHandlers";
+import {  addNewTask } from "../utils/listHandlers";
 import { showToastError } from "../utils/toastMessages";
-import { createKanbanBoard, getAllBoards } from "../api/boardActions";
-import { createLists, getAllLists } from "../api/listsActions";
+// import { createKanbanBoard, getAllBoards } from "../api/boardActions";
+import { createLists } from "../api/listsActions";
 import Sidebar from "../components/sidebar";
 
 function Dashboard() {
   const { tokens } = useUserContext();
 
+  const [selectedBoard, setSelectedBoard] = useState<IBoard | null>(null);
   const [lists, setLists] = useState<IListCard[]>([]);
-  const [boardTitle, setBoardTitle] = useState<ICreateBoardData>({
+  const [listTitle, setListTitle] = useState<ICreateBoardData>({
     title: "",
   });
   const [loading, setLoading] = useState(false);
   const { listRefs, taskRefs } = useListDragAndDrop(lists, setLists);
   const token = tokens?.access_token;
 
-  useEffect(() => {
-    getAllLists(token, setLists);
-  }, [token]);
+  console.log(selectedBoard)
+  console.log(listTitle)
+  console.log(loading);
 
-  const handleCreateBoard = async (title: string) => {
-    const kanbanBoardId = 0;
-    const payload = {
-      title,
-      kanbanBoardId,
-    };
+  // useEffect(() => {
+  //   getAllLists(token, setLists);
+  // }, [token]);
+
+  const handleCreateList = async (title: string) => {
+    // const kanbanBoardId = 0;
+    if (!selectedBoard) {
+      showToastError("Please select a board first,");
+      return;
+    }
+
     if (!title.trim()) {
       showToastError("Title is required!");
       return;
     }
-    console.log("Board Title inside handleCreateBoard:", title);
+
+    const payload = {
+      title,
+      kanbanBoardId: selectedBoard.id,
+    };
+
     setLoading(true);
     try {
       const newBoard = await createLists(payload, token);
@@ -44,7 +55,7 @@ function Dashboard() {
         ...prevLists,
         { id: newBoard.id, name: newBoard.title, tasks: [] },
       ]);
-      setBoardTitle({ title: "" });
+      setListTitle({ title: "" });
     } catch (error: any) {
       console.error("Error creating kanban board:", error);
       showToastError(error.message);
@@ -73,7 +84,7 @@ function Dashboard() {
 
       {/* Main Content */}
       <div className="relative z-10 h-full flex w-full flex-grow">
-        <Sidebar />
+        <Sidebar setSelectedBoard={setSelectedBoard} />
         <div className="flex-grow">
           {/* Cards Section */}
           <div className="flex-grow w-full mt-3 flex gap-5 overflow-x-auto p-4 scrollbar-hide">
@@ -104,15 +115,14 @@ function Dashboard() {
               buttonText="Create List"
               placeholder="Enter list title"
               confirmButtonText="Create"
-              onConfirm={(boardTitle) => {
-                // Call handleCreateBoard with the input title
+              onConfirm={(listTitle) => {
+                // Call handleCreateList with the input title
                 console.log(
-                  "Board Title passed to handleCreateBoard:",
-                  boardTitle
+                  "Board Title passed to handleCreateList:",
+                  listTitle
                 );
-                handleCreateBoard(boardTitle);
+                handleCreateList(listTitle);
               }}
-              
             />
           </div>
         </div>

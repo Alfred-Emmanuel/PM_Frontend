@@ -1,5 +1,5 @@
 import { apiPost, apiGet } from "../utils/requests";
-import { ICreateBoardData, IListCard } from "../config/interfaces";
+import { ICreateBoardData, IBoard } from "../config/interfaces";
 import { Endpoints } from "../config/endpoints";
 import { showToastError } from "../utils/toastMessages";
 
@@ -12,19 +12,19 @@ interface KanbanBoard {
 
 export async function getAllBoards(
   token: string | undefined,
-  setLists: React.Dispatch<React.SetStateAction<any>>
+  setBoards: React.Dispatch<React.SetStateAction<any>>
 ) {
   try {
     const response = await apiGet<any>(Endpoints.fetchBoards, token);
     // console.log(response)
     const boards = response.data;
     // console.log(boards);
-    const transformedLists: IListCard[] = boards.map((board: any) => ({
+    const transformedBoards: IBoard[] = boards.map((board: any) => ({
       id: board.id,
-      name: board.title,
-      tasks: [],
+      title: board.title,
+      lists: [],
     }));
-    setLists(transformedLists);
+    setBoards(transformedBoards);
     return response;
   } catch (error: any) {
     showToastError(error);
@@ -45,7 +45,7 @@ export const createKanbanBoard = async (
 };
 
 
-export function createTask(
-  data: string,
-  token: string | undefined, 
-) {}
+// export function createTask(
+//   data: string,
+//   token: string | undefined, 
+// ) {}

@@ -60,6 +60,7 @@ export function HandleRegister(
     .then((res) => {
       setLoading(false);
       showToastSuccess("Registration successful, proceed to logging in");
+      console.log(res)
     })
     .catch((error) => {
       showToastError(error.message || "Failed to sign up. Please try again");

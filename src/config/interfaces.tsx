@@ -6,6 +6,12 @@ export interface IListCard {
   tasks: ITask[];
 }
 
+export interface IBoard {
+  id: number;
+  title: string;
+  lists: IListCard[];
+}
+
 export interface ILoginForm {
   email: string;
   password: string;
