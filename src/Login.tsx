@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ILoginForm } from "../config/interfaces";
-import { HandleLogin } from "../api/authActions";
-import { InputField } from "../components/Input";
-import { useUserContext } from "../context/UserContext";
+import { ILoginForm } from "./config/interfaces";
+import { HandleLogin } from "./api/authActions";
+import { InputField } from "./components/Input";
+import { useUserContext } from "./context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {

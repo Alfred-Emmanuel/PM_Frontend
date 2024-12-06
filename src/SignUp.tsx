@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { IRegisterForm } from "../config/interfaces";
-import { InputField } from "../components/Input";
+import { IRegisterForm } from "./config/interfaces";
+import { InputField } from "./components/Input";
 import { Link } from "react-router-dom";
-import { HandleRegister } from "../api/authActions";
+import { HandleRegister } from "./api/authActions";
 // import use
 
 function SignUp() {

@@ -1,14 +1,14 @@
 import { useState } from "react";
-import useListDragAndDrop from "../components/custom_hooks/useListDragAndDrop";
-import { useUserContext } from "../context/UserContext";
-import AddItemButton from "../components/addButton";
-import { IListCard, ICreateBoardData, IBoard } from "../config/interfaces";
-import ListCard from "../components/ListCard";
-import { addNewTask } from "../utils/listHandlers";
-import { showToastError } from "../utils/toastMessages";
+import useListDragAndDrop from "./components/custom_hooks/useListDragAndDrop";
+import { useUserContext } from "./context/UserContext";
+import AddItemButton from "./components/addButton";
+import { IListCard, ICreateBoardData, IBoard } from "./config/interfaces";
+import ListCard from "./components/ListCard";
+import { addNewTask } from "./utils/listHandlers";
+import { showToastError } from "./utils/toastMessages";
 // import { createKanbanBoard, getAllBoards } from "../api/boardActions";
-import { createLists } from "../api/listsActions";
-import Sidebar from "../components/sidebar";
+import { createLists } from "./api/listsActions";
+import Sidebar from "./components/sidebar";
 
 function Dashboard() {
   const { tokens } = useUserContext();
@@ -22,7 +22,7 @@ function Dashboard() {
   const { listRefs, taskRefs } = useListDragAndDrop(lists, setLists);
   const token = tokens?.access_token;
 
-  console.log(listTitle, loading)
+  console.log(listTitle, loading);
 
   const handleCreateList = async (title: string) => {
     // const kanbanBoardId = 0;
