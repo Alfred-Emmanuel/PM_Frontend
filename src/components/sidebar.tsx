@@ -31,6 +31,8 @@ function Sidebar({
   const { tokens, user } = useUserContext();
   const token = tokens?.access_token;
 
+  console.log(loading, boardTitle)
+
   const handleSvgClick = (boardId: number) => {
     setVisibleModalId((prevId) => (prevId === boardId ? null : boardId)); // Toggle modal visibility
   };

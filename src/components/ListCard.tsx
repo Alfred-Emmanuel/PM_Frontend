@@ -1,16 +1,13 @@
 import React from "react";
 import AddItemButton from "./addButton";
 import { IListCard } from "../config/interfaces";
-import Modal from "./modal";
+// import Modal from "./modal";
 
 interface ListCardProps {
   list: IListCard;
   listRef: (el: HTMLDivElement | null) => void;
   taskRefs: { [key: number]: (el: HTMLDivElement | null) => void };
   onAddTask: (taskName: string) => void;
-  isModalVisible: boolean;
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  // parentRef?: React.RefObject<HTMLElement>;
 }
 
 const ListCard: React.FC<ListCardProps> = ({
@@ -18,9 +15,6 @@ const ListCard: React.FC<ListCardProps> = ({
   listRef,
   taskRefs,
   onAddTask,
-  isModalVisible,
-  setIsModalVisible,
-  // parentRef,
 }) => {
   return (
     <div
@@ -37,7 +31,7 @@ const ListCard: React.FC<ListCardProps> = ({
           strokeWidth={1.5}
           stroke="currentColor"
           className="size-6 cursor-pointer"
-          onClick={() => setIsModalVisible(true)}
+          // onClick={() => setIsModalVisible(true)}
         >
           <path
             strokeLinecap="round"
@@ -45,19 +39,6 @@ const ListCard: React.FC<ListCardProps> = ({
             d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
           />
         </svg>
-        <Modal
-          isVisible={isModalVisible}
-          onClose={() => setIsModalVisible(false)}
-          height="200px"
-          width="300px"
-          // parentRef={parentRef} // Pass the ref of the parent container
-          className="bg-white shadow-lg rounded-md"
-        >
-          <div className="p-4">
-            <h2 className="text-lg font-semibold">Hello, Modal!</h2>
-            <p>Content goes here...</p>
-          </div>
-        </Modal>
       </div>
 
       {/* Tasks */}

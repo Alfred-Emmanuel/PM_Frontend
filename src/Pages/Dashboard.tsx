@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import useListDragAndDrop from "../components/custom_hooks/useListDragAndDrop";
 import { useUserContext } from "../context/UserContext";
 import AddItemButton from "../components/addButton";
@@ -19,10 +19,10 @@ function Dashboard() {
     title: "",
   });
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const parentRef = useRef<HTMLDivElement>(null);
   const { listRefs, taskRefs } = useListDragAndDrop(lists, setLists);
   const token = tokens?.access_token;
+
+  console.log(listTitle, loading)
 
   const handleCreateList = async (title: string) => {
     // const kanbanBoardId = 0;
@@ -102,9 +102,6 @@ function Dashboard() {
                   onAddTask={(taskName) =>
                     addNewTask(setLists, list.id, taskName)
                   }
-                  isModalVisible={isModalVisible}
-                  setIsModalVisible={setIsModalVisible}
-                  // parentRef={parentRef}
                 />
               ))
             ) : (
