@@ -26,9 +26,11 @@ export const config = Object.freeze({
     },
     /**kanban board endpoints */
     kanbanBoard: {
-        base_url: import.meta.env.VITE_KANBAN_BOARD,
-        create: import.meta.env.VITE_CREATE_KANBAN_BOARD,
-        fetch_board: import.meta.env.VITE_FETCH_BOARDS
-    }
+      base_url: import.meta.env.VITE_KANBAN_BOARD,
+      create: import.meta.env.VITE_CREATE_KANBAN_BOARD,
+      fetch_board: import.meta.env.VITE_FETCH_BOARDS,
+      fetch_board_lists: import.meta.env.VITE_FETCH_BOARD_LISTS,
+      delete_board: import.meta.env.VITE_DELETE_BOARD,
+    },
   },
 });

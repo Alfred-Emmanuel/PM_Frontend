@@ -2,7 +2,7 @@
 
 export interface IListCard {
   id: number;
-  name: string;
+  title: string;
   tasks: ITask[];
 }
 

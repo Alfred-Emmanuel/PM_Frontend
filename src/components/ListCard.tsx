@@ -1,12 +1,16 @@
 import React from "react";
 import AddItemButton from "./addButton";
 import { IListCard } from "../config/interfaces";
+import Modal from "./modal";
 
 interface ListCardProps {
   list: IListCard;
   listRef: (el: HTMLDivElement | null) => void;
   taskRefs: { [key: number]: (el: HTMLDivElement | null) => void };
   onAddTask: (taskName: string) => void;
+  isModalVisible: boolean;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  // parentRef?: React.RefObject<HTMLElement>;
 }
 
 const ListCard: React.FC<ListCardProps> = ({
@@ -14,6 +18,9 @@ const ListCard: React.FC<ListCardProps> = ({
   listRef,
   taskRefs,
   onAddTask,
+  isModalVisible,
+  setIsModalVisible,
+  // parentRef,
 }) => {
   return (
     <div
@@ -22,10 +29,35 @@ const ListCard: React.FC<ListCardProps> = ({
     >
       {/* Card Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-bold">{list.name.toUpperCase()}</h2>
-        <button className="text-gray-400 hover:text-white">
-          <i className="fas fa-ellipsis-h"></i>
-        </button>
+        <h2 className="text-lg font-bold">{list.title.toUpperCase()}</h2>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6 cursor-pointer"
+          onClick={() => setIsModalVisible(true)}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+          />
+        </svg>
+        <Modal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          height="200px"
+          width="300px"
+          // parentRef={parentRef} // Pass the ref of the parent container
+          className="bg-white shadow-lg rounded-md"
+        >
+          <div className="p-4">
+            <h2 className="text-lg font-semibold">Hello, Modal!</h2>
+            <p>Content goes here...</p>
+          </div>
+        </Modal>
       </div>
 
       {/* Tasks */}
@@ -47,45 +79,10 @@ const ListCard: React.FC<ListCardProps> = ({
         placeholder="Enter task name"
         confirmButtonText="Add Task"
         onConfirm={onAddTask}
+        customInputContainerClass="flex flex-col gap-2 w-full"
       />
     </div>
   );
 };
 
 export default ListCard;
-
-// import React from "react";
-// import { IListCard } from "../types/listCard.interface";
-// import { ITask } from "../types/tasks.types";
-
-// interface ListCardProps {
-//   list: IListCard;
-//   listRef: (el: HTMLDivElement | null) => void;
-//   taskRefs: { [key: number]: (el: HTMLDivElement | null) => void };
-//   onAddTask: (taskName: string) => void;
-// }
-
-// const ListCard: React.FC<ListCardProps> = ({
-//   list,
-//   listRef,
-//   taskRefs,
-//   onAddTask,
-// }) => {
-//   return (
-//     <div ref={listRef} className="list-card">
-//       <div className="list-header">
-//         <h3>{list.name}</h3>
-//       </div>
-//       <div className="list-tasks">
-//         {list.tasks.map((task) => (
-//           <div key={task.id} ref={taskRefs[task.id]} className="task-card">
-//             {task.name}
-//           </div>
-//         ))}
-//       </div>
-//       <button onClick={() => onAddTask("New Task")}>Add Task</button>
-//     </div>
-//   );
-// };
-
-// export default ListCard;

@@ -28,4 +28,9 @@ export const Endpoints = {
     protectedBaseURL +
     config.endpoints.kanbanBoard.base_url +
     config.endpoints.kanbanBoard.fetch_board,
+
+  deleteBoard:
+    protectedBaseURL +
+    config.endpoints.kanbanBoard.base_url +
+    config.endpoints.kanbanBoard.delete_board,
 };

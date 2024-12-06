@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import useListDragAndDrop from "../components/custom_hooks/useListDragAndDrop";
 import { useUserContext } from "../context/UserContext";
 import AddItemButton from "../components/addButton";
 import { IListCard, ICreateBoardData, IBoard } from "../config/interfaces";
 import ListCard from "../components/ListCard";
-import {  addNewTask } from "../utils/listHandlers";
+import { addNewTask } from "../utils/listHandlers";
 import { showToastError } from "../utils/toastMessages";
 // import { createKanbanBoard, getAllBoards } from "../api/boardActions";
 import { createLists } from "../api/listsActions";
@@ -19,16 +19,10 @@ function Dashboard() {
     title: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const parentRef = useRef<HTMLDivElement>(null);
   const { listRefs, taskRefs } = useListDragAndDrop(lists, setLists);
   const token = tokens?.access_token;
-
-  console.log(selectedBoard)
-  console.log(listTitle)
-  console.log(loading);
-
-  // useEffect(() => {
-  //   getAllLists(token, setLists);
-  // }, [token]);
 
   const handleCreateList = async (title: string) => {
     // const kanbanBoardId = 0;
@@ -53,7 +47,7 @@ function Dashboard() {
       // Update the lists state with the new kanban board
       setLists((prevLists) => [
         ...prevLists,
-        { id: newBoard.id, name: newBoard.title, tasks: [] },
+        { id: newBoard.id, title: newBoard.title, tasks: [] },
       ]);
       setListTitle({ title: "" });
     } catch (error: any) {
@@ -72,9 +66,9 @@ function Dashboard() {
         <div className="absolute w-[250px] h-[250px] bg-teal-400 rounded-full opacity-50 blur-3xl bottom-20 right-20"></div>
       </div>
       {/* Header */}
-      <div className="w-full h-16 flex items-center justify-around bg-teal-400/5 backdrop-blur-lg">
+      <div className="w-full h-16 flex items-center justify-between px-16 bg-teal-400/5 backdrop-blur-lg">
         <div className="flex items-center">
-          <h1>Project Name</h1>
+          <h1 className="font-bold text-xl">{selectedBoard?.title}</h1>
         </div>
         <div className="flex items-center">
           <h1>People</h1>
@@ -84,10 +78,14 @@ function Dashboard() {
 
       {/* Main Content */}
       <div className="relative z-10 h-full flex w-full flex-grow">
-        <Sidebar setSelectedBoard={setSelectedBoard} />
+        <Sidebar
+          setSelectedBoard={setSelectedBoard}
+          setSelectedLists={setLists}
+          selectedBoard={selectedBoard}
+        />
         <div className="flex-grow">
           {/* Cards Section */}
-          <div className="flex-grow w-full mt-3 flex gap-5 overflow-x-auto p-4 scrollbar-hide">
+          <div className="flex-grow w-full h-full flex gap-5 overflow-x-auto p-4 scrollbar-hide">
             {/* Render existing cards */}
             {lists.length > 0 ? (
               lists.map((list) => (
@@ -104,26 +102,48 @@ function Dashboard() {
                   onAddTask={(taskName) =>
                     addNewTask(setLists, list.id, taskName)
                   }
+                  isModalVisible={isModalVisible}
+                  setIsModalVisible={setIsModalVisible}
+                  // parentRef={parentRef}
                 />
               ))
             ) : (
-              <div>No lists</div>
+              <div className="-z-10 flex flex-col items-center justify-center  w-full h-full">
+                <h1 className="font-semibold text-xl mb-3">
+                  You have no Lists yet, create some to view them{" "}
+                </h1>
+                <AddItemButton
+                  buttonText="Create List"
+                  placeholder="Enter list title"
+                  confirmButtonText="Create"
+                  onConfirm={(listTitle) => {
+                    // Call handleCreateList with the input title
+                    console.log(
+                      "Board Title passed to handleCreateList:",
+                      listTitle
+                    );
+                    handleCreateList(listTitle);
+                  }}
+                />
+              </div>
             )}
-
-            {/* Add New List Button */}
-            <AddItemButton
-              buttonText="Create List"
-              placeholder="Enter list title"
-              confirmButtonText="Create"
-              onConfirm={(listTitle) => {
-                // Call handleCreateList with the input title
-                console.log(
-                  "Board Title passed to handleCreateList:",
-                  listTitle
-                );
-                handleCreateList(listTitle);
-              }}
-            />
+            {lists.length > 0 ? (
+              <AddItemButton
+                buttonText="Create List"
+                placeholder="Enter list title"
+                confirmButtonText="Create"
+                onConfirm={(listTitle) => {
+                  // Call handleCreateList with the input title
+                  console.log(
+                    "Board Title passed to handleCreateList:",
+                    listTitle
+                  );
+                  handleCreateList(listTitle);
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

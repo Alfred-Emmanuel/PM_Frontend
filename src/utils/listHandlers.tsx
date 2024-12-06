@@ -4,12 +4,12 @@ import { IListCard } from "../config/interfaces";
 // Function to add a new list
 export const addNewList = (
   lists: IListCard[],
-  name: string,
+  title: string,
   setLists: React.Dispatch<React.SetStateAction<IListCard[]>>
 ) => {
   const newList: IListCard = {
     id: lists.length + 1,
-    name,
+    title,
     tasks: [],
   };
   setLists((prevLists) => [...prevLists, newList]);

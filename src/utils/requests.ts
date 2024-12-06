@@ -42,3 +42,20 @@ export const apiGet = async <T>(url: string, token?: string) => {
     throw new Error(error.message);
   }
 };
+
+export const apiDelete = async <T>(url: string, token?: string): Promise<T> => {
+  try {
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
+    };
+
+    const response = await axios.delete<T>(url, config);
+    console.log("API DELETE Response:", response);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error in DELETE request:", error);
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};  
