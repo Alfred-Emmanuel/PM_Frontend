@@ -24,7 +24,7 @@ function Sidebar({
   setSelectedLists,
   selectedBoard,
   isOpen,
-  setIsOpen
+  // setIsOpen
 }: SidebarProps) {
   // const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
