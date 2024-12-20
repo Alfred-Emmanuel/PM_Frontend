@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useListDragAndDrop from "./components/custom_hooks/useListDragAndDrop";
 import { useUserContext } from "./context/UserContext";
 import AddItemButton from "./components/addButton";
@@ -13,7 +13,7 @@ import { addNewTask } from "./utils/listHandlers";
 import { showToastError } from "./utils/toastMessages";
 import { createLists } from "./api/listsActions";
 import Sidebar from "./components/sidebar";
-import { fetchTasks } from "./api/taskActions";
+// import { fetchTasks } from "./api/taskActions";
 
 function Dashboard() {
   const { tokens } = useUserContext();
