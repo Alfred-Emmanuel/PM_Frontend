@@ -25,10 +25,15 @@ function Dashboard() {
     title: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const { listRefs, taskRefs } = useListDragAndDrop(lists, setLists);
   const token = tokens?.access_token;
 
   console.log(listTitle, loading);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleCreateList = async (title: string) => {
     if (!selectedBoard) {
@@ -64,15 +69,49 @@ function Dashboard() {
   };
 
   return (
-    <section className="relative h-screen bg-main_bg text-white flex flex-col">
+    <section className="relative h-screen  min-w-full bg-main_bg text-white flex flex-col">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute w-[250px] h-[250px] bg-teal-400 rounded-full opacity-50 blur-3xl top-20 -left-10"></div>
         <div className="absolute w-[250px] h-[250px] bg-teal-400 rounded-full opacity-50 blur-3xl bottom-20 right-20"></div>
       </div>
       {/* Header */}
-      <div className="w-full h-16 flex items-center justify-between px-16 bg-teal-400/5 backdrop-blur-lg">
+      <div className="relative min-w-full h-16 flex items-center justify-between px-16 bg-teal-400/5 backdrop-blur-lg">
         <div className="flex items-center">
+          {/* Toggle Button */}
+          {isOpen ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-5 absolute left-3 cursor-pointer z-20"
+              onClick={toggleSidebar}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-5 absolute left-3 cursor-pointer z-20"
+              onClick={toggleSidebar}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 9h16.5m-16.5 6.75h16.5"
+              />
+            </svg>
+          )}
           <h1 className="font-bold text-xl">{selectedBoard?.title}</h1>
         </div>
         <div className="flex items-center">
@@ -82,11 +121,13 @@ function Dashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 h-full flex w-full flex-grow">
+      <div className="relative z-10 h-full flex min-w-full overflow-x-auto flex-grow">
         <Sidebar
           setSelectedBoard={setSelectedBoard}
           setSelectedLists={setLists}
           selectedBoard={selectedBoard}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
         />
         {selectedBoard ? (
           <div className="flex-grow">

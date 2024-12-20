@@ -15,14 +15,18 @@ interface SidebarProps {
   setSelectedBoard: React.Dispatch<React.SetStateAction<IBoard | null>>;
   setSelectedLists: React.Dispatch<React.SetStateAction<IListCard[]>>;
   selectedBoard: IBoard | null;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function Sidebar({
   setSelectedBoard,
   setSelectedLists,
   selectedBoard,
+  isOpen,
+  setIsOpen
 }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
   const [boards, setBoards] = useState<IBoard[]>([]);
@@ -31,7 +35,7 @@ function Sidebar({
   const { tokens, user } = useUserContext();
   const token = tokens?.access_token;
 
-  console.log(loading, boardTitle)
+  console.log(loading, boardTitle);
 
   const handleSvgClick = (boardId: number) => {
     setVisibleModalId((prevId) => (prevId === boardId ? null : boardId)); // Toggle modal visibility
@@ -110,16 +114,12 @@ function Sidebar({
     }
   };
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <div className="relative z-50 h-full flex">
       {/* Sidebar */}
       <section
         className={`h-full bg-teal-400/5 backdrop-blur-lg text-white transition-all duration-300 ${
-          isOpen ? "w-72" : "w-0"
+          isOpen ? "w-52 md:w-72" : "w-0"
         } overflow-hidden`}
       >
         {isOpen && (
@@ -202,41 +202,6 @@ function Sidebar({
           </div>
         )}
       </section>
-
-      {/* Toggle Button */}
-      {isOpen ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6 absolute -top-10 left-2 cursor-pointer z-20"
-          onClick={toggleSidebar}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6 absolute -top-10 left-2 cursor-pointer z-20"
-          onClick={toggleSidebar}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 9h16.5m-16.5 6.75h16.5"
-          />
-        </svg>
-      )}
     </div>
   );
 }
