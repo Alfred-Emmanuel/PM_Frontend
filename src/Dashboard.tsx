@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useListDragAndDrop from "./components/custom_hooks/useListDragAndDrop";
 import { useUserContext } from "./context/UserContext";
 import AddItemButton from "./components/addButton";
-import { IListCard, ICreateBoardData, IBoard } from "./config/interfaces";
+import {
+  IListCard,
+  ICreateBoardData,
+  IBoard,
+  TaskData,
+} from "./config/interfaces";
 import ListCard from "./components/ListCard";
 import { addNewTask } from "./utils/listHandlers";
 import { showToastError } from "./utils/toastMessages";
-// import { createKanbanBoard, getAllBoards } from "../api/boardActions";
 import { createLists } from "./api/listsActions";
 import Sidebar from "./components/sidebar";
+import { fetchTasks } from "./api/taskActions";
 
 function Dashboard() {
   const { tokens } = useUserContext();
 
   const [selectedBoard, setSelectedBoard] = useState<IBoard | null>(null);
   const [lists, setLists] = useState<IListCard[]>([]);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
   const [listTitle, setListTitle] = useState<ICreateBoardData>({
     title: "",
   });
@@ -25,7 +31,6 @@ function Dashboard() {
   console.log(listTitle, loading);
 
   const handleCreateList = async (title: string) => {
-    // const kanbanBoardId = 0;
     if (!selectedBoard) {
       showToastError("Please select a board first,");
       return;
@@ -83,32 +88,59 @@ function Dashboard() {
           setSelectedLists={setLists}
           selectedBoard={selectedBoard}
         />
-        <div className="flex-grow">
-          {/* Cards Section */}
-          <div className="flex-grow w-full h-full flex gap-5 overflow-x-auto p-4 scrollbar-hide">
-            {/* Render existing cards */}
-            {lists.length > 0 ? (
-              lists.map((list) => (
-                <ListCard
-                  key={list.id}
-                  list={list}
-                  listRef={(el) => (listRefs.current[list.id] = el)}
-                  taskRefs={Object.fromEntries(
-                    list.tasks.map((task) => [
-                      task.id,
-                      (el) => (taskRefs.current[task.id] = el),
-                    ])
-                  )}
-                  onAddTask={(taskName) =>
-                    addNewTask(setLists, list.id, taskName)
-                  }
-                />
-              ))
-            ) : (
-              <div className="-z-10 flex flex-col items-center justify-center  w-full h-full">
-                <h1 className="font-semibold text-xl mb-3">
-                  You have no Lists yet, create some to view them{" "}
-                </h1>
+        {selectedBoard ? (
+          <div className="flex-grow">
+            {/* Cards Section */}
+            <div className="flex-grow w-full h-full flex gap-5 overflow-x-auto p-4 scrollbar-hide">
+              {/* Render existing cards */}
+              {lists.length > 0 ? (
+                lists.map((list) => {
+                  // Define listTasks outside of JSX
+                  const listTasks = tasks.filter(
+                    (task) => task.listId === list.id
+                  );
+
+                  return (
+                    <ListCard
+                      key={list.id}
+                      list={list}
+                      listRef={(el) => (listRefs.current[list.id] = el)}
+                      taskRefs={Object.fromEntries(
+                        listTasks.map((task) => [
+                          task.id,
+                          (el) => (taskRefs.current[task.id] = el),
+                        ])
+                      )}
+                      onAddTask={(taskName) =>
+                        addNewTask(setLists, list.id, taskName, String(token))
+                      }
+                      token={String(token)}
+                      setTasks={setTasks}
+                      tasks={listTasks} // Pass only the tasks for the current list
+                    />
+                  );
+                })
+              ) : (
+                <div className="z-10 flex flex-col items-center justify-center w-full h-full">
+                  <h1 className="font-semibold text-xl mb-3">
+                    You have no Lists yet, create some to view them
+                  </h1>
+                  <AddItemButton
+                    buttonText="Create List"
+                    placeholder="Enter list title"
+                    confirmButtonText="Create"
+                    onConfirm={(listTitle) => {
+                      // Call handleCreateList with the input title
+                      console.log(
+                        "Board Title passed to handleCreateList:",
+                        listTitle
+                      );
+                      handleCreateList(listTitle);
+                    }}
+                  />
+                </div>
+              )}
+              {lists.length > 0 ? (
                 <AddItemButton
                   buttonText="Create List"
                   placeholder="Enter list title"
@@ -122,27 +154,16 @@ function Dashboard() {
                     handleCreateList(listTitle);
                   }}
                 />
-              </div>
-            )}
-            {lists.length > 0 ? (
-              <AddItemButton
-                buttonText="Create List"
-                placeholder="Enter list title"
-                confirmButtonText="Create"
-                onConfirm={(listTitle) => {
-                  // Call handleCreateList with the input title
-                  console.log(
-                    "Board Title passed to handleCreateList:",
-                    listTitle
-                  );
-                  handleCreateList(listTitle);
-                }}
-              />
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="h-full w-full flex items-center justify-center text-xl ">
+            Select or create a board from the sidebar
+          </div>
+        )}
       </div>
     </section>
   );

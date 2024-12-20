@@ -10,27 +10,6 @@ interface Lists {
   ownerId: number;
 }
 
-// export async function getAllLists(
-//   token: string | undefined,
-//   setLists: React.Dispatch<React.SetStateAction<any>>
-// ) {
-//   try {
-//     const response = await apiGet<any>(Endpoints.fetchLists, token);
-//     // console.log(response)
-//     const lists = response.data;
-//     // console.log(lists);
-//     const transformedLists: IListCard[] = lists.map((list: any) => ({
-//       id: list.id,
-//       name: list.title,
-//       tasks: [],
-//     }));
-//     setLists(transformedLists);
-//     return response;
-//   } catch (error: any) {
-//     showToastError(error);
-//     throw error;
-//   }
-// }
 
 export const createLists = async (
   data: ICreateListData,

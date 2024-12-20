@@ -26,7 +26,7 @@ export interface IRegisterForm {
 
 export interface ITask {
   id: number;
-  name: string;
+  title: string;
 }
 
 export interface IUser {
@@ -60,4 +60,13 @@ export interface ICreateBoardData {
 export interface ICreateListData {
   title: string;
   kanbanBoardId: number;
+}
+
+export interface TaskData {
+  id: number;
+  title: string;
+  status: string;
+  listId: number;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -27,9 +27,9 @@ function Login() {
   };
 
   return (
-    <div className=" relative z-10 h-[80%] w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
+    <div className=" relative z-10 h-[80%] w-[85%] md:w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
       {/* Heading */}
-      <h1 className="text-secondary text-lg md:text-2xl font-semibold">
+      <h1 className="text-secondary text-lg text-xl md:text-2xl font-semibold">
         Agent Login
       </h1>
       <p className="text-secondary text-sm md:text-base my-4 md:mx-24">
@@ -38,7 +38,7 @@ function Login() {
 
       {/* Form */}
       <form
-        className="w-full px-12 mt-6 flex flex-col gap-4"
+        className="w-full px-4 md:px-12 mt-6 flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
         {/* Email */}
@@ -105,7 +105,7 @@ function Login() {
       </form>
 
       {/* Social Sign-In */}
-      <div className="mt-6 w-full px-6">
+      {/* <div className="mt-6 w-full px-6">
         <p className="text-gray-500 text-sm">Or Sign in with</p>
         <div className="flex justify-center mt-4 gap-4">
           <button className="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg">
@@ -118,13 +118,13 @@ function Login() {
             <img src="/facebook-icon.svg" alt="Facebook" className="h-6" />
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Request Account */}
       <p className="mt-4 text-sm text-gray-500">
         Don’t have an account?{" "}
         <Link to={"/sign_up"} className="text-secondary hover:underline">
-          Request Now
+          Create One
         </Link>
       </p>
     </div>

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { fetchTasks } from "@/api/taskActions";
 import AddItemButton from "./addButton";
-import { IListCard } from "../config/interfaces";
+import { IListCard, TaskData } from "../config/interfaces";
 // import Modal from "./modal";
 
 interface ListCardProps {
@@ -8,6 +9,9 @@ interface ListCardProps {
   listRef: (el: HTMLDivElement | null) => void;
   taskRefs: { [key: number]: (el: HTMLDivElement | null) => void };
   onAddTask: (taskName: string) => void;
+  token: string;
+  setTasks: React.Dispatch<React.SetStateAction<TaskData[]>>;
+  tasks: TaskData[];
 }
 
 const ListCard: React.FC<ListCardProps> = ({
@@ -15,7 +19,22 @@ const ListCard: React.FC<ListCardProps> = ({
   listRef,
   taskRefs,
   onAddTask,
+  token,
+  setTasks,
+  tasks,
 }) => {
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const response = await fetchTasks(token, list.id);
+        setTasks(response.tasks);
+      } catch (error) {
+        console.error("Failed to fetch tasks:", error);
+      }
+    };
+
+    loadTasks();
+  }, [tasks.length, token]);
   return (
     <div
       ref={listRef}
@@ -43,13 +62,13 @@ const ListCard: React.FC<ListCardProps> = ({
 
       {/* Tasks */}
       <div className="flex flex-col space-y-2">
-        {list.tasks.map((task) => (
+        {tasks.map((task) => (
           <div
             key={task.id}
             ref={taskRefs[task.id]}
             className="px-3 py-2 bg-gray-700 rounded text-sm"
           >
-            {task.name}
+            {task.title}
           </div>
         ))}
       </div>

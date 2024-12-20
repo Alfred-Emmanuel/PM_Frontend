@@ -32,5 +32,11 @@ export const config = Object.freeze({
       fetch_board_lists: import.meta.env.VITE_FETCH_BOARD_LISTS,
       delete_board: import.meta.env.VITE_DELETE_BOARD,
     },
+    /**tasks endpoints */
+    tasks: {
+        base_url: import.meta.env.VITE_TASKS,
+        create_tasks: import.meta.env.VITE_CREATE_TASKS,
+        fetch_tasks: import.meta.env.VITE_FETCH_TASKS
+    },
   },
 });

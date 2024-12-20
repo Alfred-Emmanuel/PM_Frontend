@@ -59,9 +59,9 @@ function SignUp() {
         <div className="absolute w-[250px] h-[250px] bg-teal-400 rounded-full opacity-50 blur-3xl top-20 -left-10"></div>
         <div className="absolute w-[250px] h-[250px] bg-teal-400 rounded-full opacity-50 blur-3xl bottom-20 right-20"></div>
       </div>
-      <div className=" relative z-10 h-[80%] w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
+      <div className=" relative z-10 md:h-[80%] w-[85%]  md:w-1/3 flex py-8 items-center flex-col bg-primary rounded-lg text-center shadow-lg">
         {/* Heading */}
-        <h1 className="text-secondary text-lg md:text-2xl font-semibold">
+        <h1 className="text-secondary text-xl md:text-2xl font-semibold">
           Register
         </h1>
         <p className="text-secondary text-sm md:text-base my-4 md:mx-24">
@@ -70,7 +70,7 @@ function SignUp() {
 
         {/* Form */}
         <form
-          className="w-full px-12 mt-6 flex flex-col gap-4"
+          className="w-full px-4 md:px-12 mt-6 flex flex-col gap-4"
           onSubmit={handleSubmit}
         >
           <InputField
@@ -153,7 +153,7 @@ function SignUp() {
         </form>
 
         {/* Social Sign-In */}
-        <div className="mt-6 w-full px-6">
+        <div className="mt-6 w-full px-6 pb-5">
           <Link to={"/"} className="text-white text-sm">
             Or Sign in
           </Link>
